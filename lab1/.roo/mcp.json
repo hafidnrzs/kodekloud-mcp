@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "flight-booking": {
+      "command": "uv",
+      "args": ["run", "python", "server.py"],
+      "cwd": "D:/aegislabs/kodekloud-mcp/lab1/flight-booking-server"
+    }
+  }
+}
