@@ -33,7 +33,7 @@ async def test_tools_and_prompts():
                         "search_flights", {"origin": "LAX", "destination": "JFK"}
                     )
                     if flight_result.content and len(flight_result.content) > 0:
-                        print(f"🎯 Flight search result:")
+                        print("🎯 Flight search result:")
                         print(f"   {flight_result.content[0].text}")
                     print()
                 except Exception as e:
@@ -48,7 +48,7 @@ async def test_tools_and_prompts():
                         {"flight_id": "FL123", "passenger_name": "Alice Johnson"},
                     )
                     if booking_result.content and len(booking_result.content) > 0:
-                        print(f"🎯 Booking result:")
+                        print("🎯 Booking result:")
                         print(f"   {booking_result.content[0].text}")
                     print()
                 except Exception as e:
@@ -60,7 +60,7 @@ async def test_tools_and_prompts():
                 try:
                     airport_result = await client.read_resource("file://airports")
                     if airport_result.contents and len(airport_result.contents) > 0:
-                        print(f"🎯 Airport information:")
+                        print("🎯 Airport information:")
                         print(f"   {airport_result.contents[0].text[:200]}...")
                     print()
                 except Exception as e:
@@ -78,7 +78,7 @@ async def test_tools_and_prompts():
                         },
                     )
                     if prompt_result.messages and len(prompt_result.messages) > 0:
-                        print(f"🎯 Flight recommendation prompt:")
+                        print("🎯 Flight recommendation prompt:")
                         # The prompt content is in the message
                         if hasattr(prompt_result.messages[0].content, "text"):
                             print(
@@ -104,7 +104,7 @@ async def test_tools_and_prompts():
                         disruption_result.messages
                         and len(disruption_result.messages) > 0
                     ):
-                        print(f"🎯 Disruption handling prompt:")
+                        print("🎯 Disruption handling prompt:")
                         if hasattr(disruption_result.messages[0].content, "text"):
                             print(
                                 f"   {disruption_result.messages[0].content.text[:300]}..."
