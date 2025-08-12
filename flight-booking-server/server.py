@@ -1,4 +1,5 @@
 from mcp.server.fastmcp import FastMCP
+import sys
 
 # Create an MCP server
 mcp = FastMCP("Flight Booking Server")
@@ -78,5 +79,14 @@ Be empathetic and solution-focused in your response."""
 
 
 if __name__ == "__main__":
-    # Run in streamable HTTP mode for client connections
-    mcp.run(transport="streamable-http")
+    # Default transport and port
+    transport = "stdio"
+
+    # Parse command-line arguments
+    if "--transport" in sys.argv:
+        idx = sys.argv.index("--transport")
+        if idx + 1 < len(sys.argv):
+            transport = sys.argv[idx + 1]
+
+    # Run MCP Server with appropriate transport
+    mcp.run(transport=transport)

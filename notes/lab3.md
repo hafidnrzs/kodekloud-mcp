@@ -1,12 +1,16 @@
-Before we can test MCP clients, we need to start the flight booking server that our clients will connect to.
-1. Open a terminal and navigate to the server directory
-2. Start the MCP server using the MCP CLI with streamable-http transport
-3. Verify the server is running on port 8000
-4. Leave this terminal open - the server must keep running
+# Building an MCP Client
 
-Commands to run:
+Ini adalah lab 3 dari KodeKloud tutorial [MCP Tutorial: Build Your First MCP Server and Client from Scratch (Free Labs)](https://www.youtube.com/watch?v=RhTiAOGwbYE&t=79s) bagian **Building an MCP Client**.
+
+Sebelum kita dapat menguji MCP client, kita perlu menjalankan flight booking server yang akan dihubungkan oleh client.
+1. Buka terminal dan navigasi ke direktori server
+2. Jalankan MCP server menggunakan MCP CLI dengan transport streamable-http
+3. Verifikasi server berjalan di port 8000
+4. Biarkan terminal ini tetap terbuka - server harus tetap berjalan
+
+Perintah yang dijalankan:
 ```bash
-cd ../lab2/flight-booking-server
+cd flight-booking-server
 uv run mcp run server.py --transport streamable-http
 ```
 
@@ -20,30 +24,32 @@ Ini bertujuan untuk mengecek konektivitas MCP Client dengan flight-booking MCP S
 
 ## Tool Parameter Analysis
 
-Examine the tools_client.py file to understand how MCP clients call server tools with specific parameters.
+Periksa file `tools_client.py` untuk memahami bagaimana MCP client memanggil server tools dengan parameter tertentu.
 
-📋 Analysis Task:
+📋 Tugas Analisis:
 
-1. Open and examine the file: `mcp-client/tools_client.py`
-2. Look at the `search_flights` tool call in Test 1
-3. Identify the destination airport parameter value
-4. Optionally run the client to see the tools in action
+1. Buka dan periksa file: `mcp-client/tools_client.py`
+2. Lihat pemanggilan tool `search_flights` pada Test 1
+3. Identifikasi nilai parameter bandara tujuan
+4. Opsional: jalankan client untuk melihat tools beraksi
 
-🔍 Code Location:
+🔍 Lokasi Kode:
 ```python
 flight_result = await client.call_tool("search_flights", {
-    "origin": "LAX",
-    "destination": "???"
+   "origin": "LAX",
+   "destination": "???"
 })
 ```
 
-Command to test:
+Perintah untuk uji coba:
 ```bash
 cd mcp-client
 uv run python tools_client.py
 ```
 
-💡 Find the destination airport code used in the search_flights tool call!
+💡 Temukan kode bandara tujuan yang digunakan pada pemanggilan tool search_flights!
+
+### Catatan Pribadi
 
 `tools_client.py` menjalankan tes pemanggilan tools, resource, dan prompt dari sisi client. Yang dilakukan pada kode tersebut:
 - Client memanggil tools `call_tool("nama_tool", {"param": "value"})`
@@ -52,37 +58,37 @@ uv run python tools_client.py
 
 ## MCP Roots Configuration
 
-Examine the `roots_client.py` file to understand which directories are provided as file system roots to the server.
+Periksa file `roots_client.py` untuk memahami direktori mana yang disediakan sebagai file system roots ke server.
 
-📋 Analysis Task:
+📋 Tugas Analisis:
 
-1. Open and examine the file: `mcp-client/roots_client.py`
-2. Look at the project_roots list defined at the top
-3. Identify which directory path is NOT included in the current roots
-4. Optionally run the client to see roots functionality
+1. Buka dan periksa file: `mcp-client/roots_client.py`
+2. Lihat daftar project_roots yang didefinisikan di bagian atas
+3. Identifikasi direktori path yang TIDAK termasuk dalam roots saat ini
+4. Opsional: jalankan client untuk melihat fungsi roots
 
-🔍 Code Location:
+🔍 Lokasi Kode:
 ```python
 project_roots = [
-   "D:/aegislabs/kodekloud-mcp/lab3",
-   "D:/aegislabs/kodekloud-mcp/lab3/flight-booking-server/",
-   "D:/aegislabs/kodekloud-mcp/lab3/mcp-client/",
+   "D:/aegislabs/kodekloud-mcp/",
+   "D:/aegislabs/kodekloud-mcp/flight-booking-server/",
+   "D:/aegislabs/kodekloud-mcp/mcp-client/",
 ]
 ```
 
-Command to test:
+Perintah untuk uji coba:
 ```bash
 cd mcp-client
 uv run python roots_client.py
 ```
-💡 Which directory is missing from the roots list?
+💡 Direktori mana yang tidak ada di daftar roots?
 
 ### Output:
 🌳 Roots configuration summary:
 📁 Provided 3 project roots:
-   1. D:/aegislabs/kodekloud-mcp/lab3
-   2. D:/aegislabs/kodekloud-mcp/lab3/flight-booking-server/
-   3. D:/aegislabs/kodekloud-mcp/lab3/mcp-client/
+   1. D:/aegislabs/kodekloud-mcp/
+   2. D:/aegislabs/kodekloud-mcp/flight-booking-server/
+   3. D:/aegislabs/kodekloud-mcp/mcp-client/
 
 💡 The server can now access files within these directories
    if it has file-related tools implemented!
@@ -92,25 +98,26 @@ uv run python roots_client.py
 
 ## Implementing Sampling Support
 
-Sampling allows servers to request LLM responses from clients. Learn how to handle these requests.
+Sampling memungkinkan server meminta respons LLM dari client. Pelajari cara menangani permintaan ini.
 
-1. Examine the `sampling_client.py` file
-2. Run it to see the sampling callback in action
-3. Understand how to handle CreateMessageRequestParams
-4. See how to return CreateMessageResult responses
+1. Periksa file `sampling_client.py`
+2. Jalankan untuk melihat sampling callback beraksi
+3. Pahami cara menangani `CreateMessageRequestParams`
+4. Lihat cara mengembalikan respons `CreateMessageResult`
 
-Command to run:
+Perintah untuk menjalankan:
 ```bash
 cd mcp-client
 uv run python sampling_client.py
 ```
 
-🤖 Sampling scenarios handled:
-- Travel explanation requests
-- Story creation requests
-- General recommendation requests
+🤖 Skenario sampling yang ditangani:
+- Permintaan penjelasan perjalanan
+- Permintaan pembuatan cerita
+- Permintaan rekomendasi umum
 
 ### Output:
+```
 🎭 SAMPLING MCP CLIENT
 ========================================
 🎯 Goal: Handle server LLM sampling requests
@@ -136,10 +143,11 @@ uv run python sampling_client.py
 
 🎉 Sampling client test completed!
 ✨ Ready to handle server LLM requests!
+```
 
 ### Penjelasan Output
 
-Secara singkat sampling = server minta client menjalankan panggilan ke LLM (generate completion) atas nama server. Bukan client yang selalu prompting server, tapi server mengajukan permintaan completion ke client.
+Secara singkat sampling = server meminta client menjalankan panggilan ke LLM (generate completion) atas nama server. Bukan client yang selalu prompting server, tapi server mengajukan permintaan completion ke client.
 
 Saat menjalankan `sampling_client.py`, pertama client akan terhubung ke **server**.
 
@@ -154,8 +162,9 @@ Fitur callback ini diprogram untuk:
 - Memberi rekomendasi/cerita
 - Menjawab pertanyaan kontekstual terkait perjalanan/penerbangan
 
-**Question**
-Apakah sampling ini digunakan misal server minta buatkan bahasa natural sebagai pelengkap output yang dihasilkan oleh tool atau resource dari server?
+**❓ Pertanyaan**
+
+> Apakah sampling ini digunakan misal server minta buatkan bahasa natural sebagai pelengkap output yang dihasilkan oleh tool atau resource dari server?
 
 Server bisa mengirimkan permintaan sampling dan client sepenuhnya mengontrol. Kalau diterima, client akan melakukan panggilan ke LLM untuk menghasilkan teks yang lebih natural dan sesuai konteks. Kalau ditolak, client bisa memberikan respons alternatif atau mendapatkan data mentah dari server.
 
@@ -182,6 +191,7 @@ uv run python elicitation_client.py
 - Supports various input formats
 
 ### Output:
+```
 🔔 ELICITATION MCP CLIENT
 ========================================
 🎯 Goal: Handle server user input requests
@@ -226,6 +236,7 @@ uv run python elicitation_client.py
 
 🎉 Elicitation client test completed!
 ✨ Ready to handle server user input requests!
+```
 
 ### Penjelasan Output
 
@@ -237,27 +248,27 @@ Fungsi tersebut mengembalikan `ElicitResult` yang isinya:
 - `action`: "accept" atau "decline"
 - `content`: data/jawaban yang diberikan user atau alasan penolakan
 
-**Pertanyaan**
-Jadi, elicitation itu semacam pertanyaan konfirmasi dari server ke client untuk mendapatkan input yang lebih spesifik untuk melengkapi informasi yang akan dikirimkan pada MCP server?
+**❓ Pertanyaan**
+
+> Jadi, elicitation itu semacam pertanyaan konfirmasi dari server ke client untuk mendapatkan input yang lebih spesifik untuk melengkapi informasi yang akan dikirimkan pada MCP server?
 
 Ya, Elicitation di MCP memang seperti pertanyaan langsung dari server ke client untuk melengkapi data yang belum dimiliki server, meminta konfirmasi sebelum melakukan aksi (misal: approve, hapus data), dan mengumpulkan input yang sifatnya sensitif atau personal.
 
-Perbedaannya dengan sampling?
+> Perbedaannya dengan sampling?
 - Sampling: Server minta client memanggil LLM untuk memproses/generate sesuatu
 - Elicitation: Server meminta user di sisi client untuk memberikan input manual. Tidak selalu melibatkan LLM, fokusnya adalah interaksi manusia.
 
-
-Tapi, Elicitation itu didefinisikan pada MCP Client ya? Lalu, bagaimana cara kerja di MCP Server agar bisa mendeteksi kalau itu men-trigger elicitaiton?
+> Tapi, Elicitation itu didefinisikan pada MCP Client ya? Lalu, bagaimana cara kerja di MCP Server agar bisa mendeteksi kalau itu men-trigger elicitaiton?
 
 Bukan terdeteksi otomatis. Server secara sadar memanggil API elicitation ketika:
 - butuh data yang belum ada (parameter tool kurang, klarifikasi, preferensi), atau
 - butuh konfirmasi user sebelum lanjut aksi
 
-Kapan aman dipakai?
+> Kapan aman dipakai?
 - Client harus memastikan kemampuan "elicitation" saat inisialisasi. Server bisa cek `capability` dari client dulu; kalau tidak ada, fallback misal pakai default atau batalkan aksi.
 
 
-Berarti extension AI Agent atau chat pada VSCode sperti GitHub Copilot Chat, Roo Code, Cline itu udah punya fitur Elicitation yang sangat canggih dan menangani berbagai kasus?
+> Berarti extension AI Agent atau chat pada VSCode sperti GitHub Copilot Chat, Roo Code, Cline itu udah punya fitur Elicitation yang sangat canggih dan menangani berbagai kasus?
 
 Ya, extension AI Agent/chat di VSCode seperti GitHub Copilot Chat, Roo Code, dan Cline sudah memiliki fitur Elicitation yang canggih. Mereka dapat meminta input dari pengguna dengan cara yang lebih interaktif. Umumnya sudah punya fitur elicitation yang:
 - Sangat canggih
@@ -312,27 +323,27 @@ Learn the key considerations for building robust, production-ready MCP clients.
 
 ## End
 
-You've successfully learned to build comprehensive MCP clients that can integrate with any MCP server:
+Anda telah berhasil mempelajari cara membangun MCP client yang komprehensif dan dapat terintegrasi dengan MCP server mana pun:
 
-- ✅ Built basic clients for server discovery and connection
-- ✅ Created tool-calling clients for automation
-- ✅ Implemented advanced features: roots, sampling, elicitation
-- ✅ Developed production-ready integration patterns
-- ✅ Mastered async Python programming for MCP
+- ✅ Membuat client dasar untuk penemuan dan koneksi server
+- ✅ Membuat client tool-calling untuk otomasi
+- ✅ Mengimplementasikan fitur lanjutan: roots, sampling, elicitation
+- ✅ Mengembangkan pola integrasi siap produksi
+- ✅ Menguasai pemrograman async Python untuk MCP
 
-🚀 What you've mastered:
+🚀 Apa yang telah Anda kuasai:
 
-- Complete MCP client development workflow
-- Programmatic server integration techniques
-- Advanced callback implementations
-- Production deployment considerations
-- Building custom MCP-powered applications
+- Alur kerja pengembangan MCP client secara lengkap
+- Teknik integrasi server secara programatik
+- Implementasi advanced callback
+- Pertimbangan deployment produksi
+- Membangun aplikasi custom berbasis MCP
 
-🔜 Next Steps in MCP Development:
+🔜 Langkah Selanjutnya dalam Pengembangan MCP:
 
-- Integrate MCP clients into existing applications
-- Build MCP-powered automation systems
-- Create custom transport implementations
-- Develop MCP-based AI agent platforms
+- Integrasikan MCP client ke aplikasi yang sudah ada
+- Bangun sistem otomasi berbasis MCP
+- Buat custom transport implementation
+- Kembangkan platform AI agent berbasis MCP
 
-💡 Pro Tip: MCP clients are the bridge between MCP servers and your applications - they enable powerful AI integrations!
+💡 Pro Tip: MCP client adalah jembatan antara MCP server dan aplikasi Anda - mereka memungkinkan integrasi AI yang sangat

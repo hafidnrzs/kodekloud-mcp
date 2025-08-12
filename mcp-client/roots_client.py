@@ -18,9 +18,9 @@ async def test_roots_functionality():
 
     # Define project roots that the server can access
     project_roots = [
-        "D:/aegislabs/kodekloud-mcp/lab3",
-        "D:/aegislabs/kodekloud-mcp/lab3/flight-booking-server/",
-        "D:/aegislabs/kodekloud-mcp/lab3/mcp-client/",
+        "D:/aegislabs/kodekloud-mcp/",
+        "D:/aegislabs/kodekloud-mcp/flight-booking-server/",
+        "D:/aegislabs/kodekloud-mcp/mcp-client/",
     ]
 
     # Define list_roots callback - this is called when server asks for available roots

@@ -22,9 +22,9 @@ from mcp.types import (
 async def list_roots_callback(context):
     """Provide project roots to server"""
     project_roots = [
-        "D:/aegislabs/kodekloud-mcp/lab3",
-        "D:/aegislabs/kodekloud-mcp/lab3/flight-booking-server/",
-        "D:/aegislabs/kodekloud-mcp/lab3/mcp-client/",
+        "D:/aegislabs/kodekloud-mcp/",
+        "D:/aegislabs/kodekloud-mcp/flight-booking-server/",
+        "D:/aegislabs/kodekloud-mcp/mcp-client/",
     ]
 
     print(f"📁 Providing {len(project_roots)} project roots to server")
